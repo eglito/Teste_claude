@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monks Marketing Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main id="app">
+        <section id="loginSection" class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Monks Marketing Dashboard</h1>
+                    <p class="login-subtitle">Sistema de Performance para Gestores</p>
+                </div>
+                <div id="loginMessage" class="message-container" style="display: none;">
+                    <p id="loginMessageText"></p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="primary" id="loginBtn">Entrar</button>
+                </form>
+                <div class="test-credentials">
+                    <p><strong>Credenciais para teste:</strong></p>
+                    <p class="credential-item"><strong>Admin:</strong> user1 / oeiruhn56146</p>
+                    <p class="credential-item"><strong>User:</strong> user2 / 908ijofff</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboardSection" class="dashboard-container" style="display: none;">
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1>Dashboard de Performance</h1>
+                    <div class="user-info">
+                        <div class="user-details">
+                            <span id="currentUser" class="username"></span>
+                            <span id="userRole" class="user-role"></span>
+                        </div>
+                        <button id="logoutBtn" class="logout-button">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <section class="stats-section">
+                    <h2>Resumo Geral</h2>
+                    <div class="stats-container">
+                        <div class="stat-card"><p class="stat-value" id="totalRecords">0</p><p class="stat-label">Total de Registros</p></div>
+                        <div class="stat-card"><p class="stat-value" id="totalDates">0</p><p class="stat-label">Datas Únicas</p></div>
+                        <div class="stat-card"><p class="stat-value" id="userRoleDisplay">-</p><p class="stat-label">Seu Nível de Acesso</p></div>
+                        <div id="costVisibilityCard" class="stat-card"><p class="stat-value" id="costVisibility">-</p><p class="stat-label">Visibilidade de Custo</p></div>
+                    </div>
+                </section>
+                <section class="filters-section">
+                    <h2>Filtros e Ordenação</h2>
+                    <div class="filters-container">
+                        <div class="filters-grid">
+                            <div class="form-group"><label for="dateFilter">Filtrar por Data</label><select id="dateFilter"></select></div>
+                            <div class="form-group"><label for="sortColumn">Ordenar por Coluna</label><select id="sortColumn"></select></div>
+                            <div class="form-group"><label for="sortOrder">Ordem</label><select id="sortOrder"><option value="asc">Crescente</option><option value="desc">Decrescente</option></select></div>
+                            <div class="filter-actions"><button id="applyFiltersBtn" class="primary filter-button">Aplicar</button><button id="clearFiltersBtn" class="secondary filter-button">Limpar</button><button id="refreshDataBtn" class="secondary filter-button">Atualizar</button></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="data-section">
+                    <div class="data-container">
+                        <div class="table-header">
+                            <h2>Dados de Métricas</h2>
+                            <div class="table-info"><span id="recordsCount">0 registros</span> | <span id="lastUpdated"></span></div>
+                        </div>
+                        <div id="loadingContainer" class="loading-container" style="display: none;"><div class="loading-spinner"></div><p class="loading-text">Carregando dados...</p></div>
+                        <div id="emptyState" class="empty-state" style="display: none;"><h3>Nenhum dado encontrado</h3><p>Tente ajustar os filtros.</p></div>
+                        <div id="errorState" class="error-state" style="display: none;"><h3>Ocorreu um Erro</h3><p id="errorStateMessage"></p></div>
+                        <div id="tableContainer" class="table-wrapper"><div class="table-container"><table id="dataTable" class="data-table"><thead id="tableHeader"></thead><tbody id="tableBody"></tbody></table></div></div>
+
+                        <div id="paginationControls" class="pagination-controls" style="display: none; justify-content: space-between; align-items: center; padding-top: 1rem;">
+                            <button id="prevPageBtn" class="secondary">Anterior</button>
+                            <span id="pageInfo">Página 1 de 1</span>
+                            <button id="nextPageBtn" class="secondary">Próxima</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <footer class="app-footer"><p>&copy; 2025 Monks Case Técnico - Alexandre Luiz Adriano.</p></footer>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
