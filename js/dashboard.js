@@ -46,6 +46,7 @@ function renderTable(data, columns) {
         emptyState.style.display = 'block';
         tableContainer.style.display = 'none';
         paginationControls.style.display = 'none';
+        recordsCountEl.textContent = '0 registros';
         return;
     }
     emptyState.style.display = 'none';
@@ -61,6 +62,7 @@ function renderTable(data, columns) {
 }
 
 function formatCell(value, colName) {
+    if (value === null || value === undefined) return '-';
     if (typeof value !== 'number') return value;
     if (colName === 'cost_micros') {
         return (value / 1000000).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -103,24 +105,22 @@ async function loadInitialData() {
     try {
         const [summary, user] = await Promise.all([getMetricsSummary(), apiRequest('/users/me')]);
 
-        // Preenche info do usuário
         currentUserEl.textContent = `Olá, ${user.username}`;
         userRoleEl.textContent = user.role;
 
-        // Preenche resumo
         totalRecordsEl.textContent = summary.total_records.toLocaleString('pt-BR');
         totalDatesEl.textContent = summary.available_dates.length;
         userRoleDisplayEl.textContent = summary.user_permissions.role;
         costVisibilityEl.textContent = summary.user_permissions.can_see_cost_micros ? 'Visível' : 'Oculto';
         costVisibilityEl.style.color = summary.user_permissions.can_see_cost_micros ? 'var(--success-color)' : 'var(--error-color)';
 
-        // Preenche filtros
         dateFilterEl.innerHTML = `<option value="">Todas as Datas</option>${summary.available_dates.map(d => `<option value="${d}">${d}</option>`).join('')}`;
         sortColumnEl.innerHTML = `<option value="">Sem Ordenação</option>${summary.sortable_columns.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('')}`;
 
         await applyFilters(true);
     } catch (e) {
-        setErrorState(e.message);
+        errorState.style.display = 'block';
+        errorStateMessage.textContent = e.message;
     }
 }
 
