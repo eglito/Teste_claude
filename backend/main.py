@@ -12,14 +12,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 from starlette.responses import FileResponse
 
-from auth import (
+from backend.auth import (
     authenticate_user_credentials,
     create_access_token,
     get_current_active_user,
     users_db,
     ACCESS_TOKEN_EXPIRE_MINUTES
 )
-from models import User, Token
+from backend.models import User, Token
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
